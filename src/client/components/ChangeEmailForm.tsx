@@ -17,7 +17,7 @@ const fields = {
 } as Fields;
 
 export const ChangeEmailForm: React.FC<Props> = ({ setError, setUpdated }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState<null | string>(null);
 
   const handleSubmit: SubmitCallback = async (
     { newEmail, confirmEmail },
@@ -26,7 +26,11 @@ export const ChangeEmailForm: React.FC<Props> = ({ setError, setUpdated }) => {
     formikHelpers.setSubmitting(true);
 
     userService
-      .updateUserData('email', { newEmail, confirmEmail })
+      .updateUserData('email', {
+        currentPassword: checked || '',
+        newEmail,
+        confirmEmail,
+      })
       .then(() => setUpdated(true))
       .catch((e) => catchError(e, setError))
       .finally(() => formikHelpers.setSubmitting(false));

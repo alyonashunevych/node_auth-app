@@ -12,6 +12,7 @@ type UpdateUserData =
       confirmPassword: string;
     }
   | {
+      currentPassword: string;
       newEmail: string;
       confirmEmail: string;
     };

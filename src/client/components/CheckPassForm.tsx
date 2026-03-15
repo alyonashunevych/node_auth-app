@@ -8,7 +8,7 @@ import { FormTemplate } from './FormTemplate';
 
 type Props = {
   setError: Dispatch<SetStateAction<string>>;
-  setChecked: Dispatch<SetStateAction<boolean>>;
+  setChecked: Dispatch<SetStateAction<null | string>>;
 };
 
 const fields = {
@@ -23,7 +23,7 @@ export const CheckPassForm: React.FC<Props> = ({ setChecked, setError }) => {
 
     userService
       .checkPassword(password, currentUser?.email || '')
-      .then(() => setChecked(true))
+      .then(() => setChecked(password))
       .catch((e) => catchError(e, setError))
       .finally(() => formikHelpers.setSubmitting(false));
   };

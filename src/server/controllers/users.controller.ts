@@ -46,7 +46,13 @@ const checkNewPassword = async (req: ExpressRequest) => {
 };
 
 const checkNewEmail = async (req: ExpressRequest, user: User) => {
-  const { newEmail, confirmEmail } = req.body;
+  const { currentPassword, newEmail, confirmEmail } = req.body;
+
+  const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+
+  if (!isPasswordValid) {
+    throw ApiError.badRequest('Password is incorrect');
+  }
 
   const error = validateEmail(newEmail);
 
