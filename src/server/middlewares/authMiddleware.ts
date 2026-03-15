@@ -1,11 +1,12 @@
-import type {
+import {
   Request as ExpressRequest,
   Response as ExpressResponse,
   NextFunction,
 } from 'express';
-import { ApiError } from '../exeptions/api.error.ts';
-import { jwt } from '../utils/jwt.ts';
-import type { NormalizedUser } from '../services/user.service.ts';
+
+import { ApiError } from '../exeptions/api.error.js';
+import { jwt } from '../utils/jwt.js';
+import { NormalizedUser } from '../services/user.service.js';
 
 declare module 'express-serve-static-core' {
   // eslint-disable-next-line no-shadow

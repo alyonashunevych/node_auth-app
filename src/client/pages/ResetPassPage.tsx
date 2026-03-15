@@ -1,15 +1,15 @@
-import { usePageError } from '../hooks/usePageError.ts';
+import { usePageError } from '../hooks/usePageError';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { authService } from '../services/authService.ts';
+import { authService } from '../services/authService';
 import { useEffect, useState } from 'react';
 
-import { catchError, ErrorResponse } from '../utils/catchError.ts';
-import { useAuth } from '../components/AuthContext.tsx';
-import { Loader } from '../components/Loader.tsx';
+import { catchError, ErrorResponse } from '../utils/catchError';
+import { useAuth } from '../components/AuthContext';
+import { Loader } from '../components/Loader';
 import { AxiosError } from 'axios';
-import { Fields } from '../types/Fields.ts';
-import { SubmitCallback } from '../types/SubmitCallback.ts';
-import { FormTemplate } from '../components/FormTemplate.tsx';
+import { Fields } from '../types/Fields';
+import { SubmitCallback } from '../types/SubmitCallback';
+import { FormTemplate } from '../components/FormTemplate';
 
 const fieldsNewPassword = {
   newPassword: { type: 'password', label: 'New password' },

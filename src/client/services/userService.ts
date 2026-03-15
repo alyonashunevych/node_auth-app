@@ -7,11 +7,13 @@ type UpdateUserData =
       newName: string;
     }
   | {
+      currentPassword: string;
       newPassword: string;
       confirmPassword: string;
     }
   | {
       newEmail: string;
+      confirmEmail: string;
     };
 
 export const userService = {

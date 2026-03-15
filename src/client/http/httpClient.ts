@@ -9,7 +9,7 @@ export const httpClient = axios.create({
 
 // add `Authorization` header to all requests
 httpClient.interceptors.request.use((request) => {
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = accessTokenService.get();
 
   if (accessToken) {
     request.headers.Authorization = `Bearer ${accessToken}`;

@@ -1,10 +1,9 @@
-import { userService } from '../services/userService.ts';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { CheckPassForm } from './CheckPassForm.tsx';
-import { catchError } from '../utils/catchError.ts';
-import { Fields } from '../types/Fields.ts';
-import { SubmitCallback } from '../types/SubmitCallback.ts';
-import { FormTemplate } from './FormTemplate.tsx';
+import { userService } from '../services/userService';
+import { Dispatch, SetStateAction } from 'react';
+import { catchError } from '../utils/catchError';
+import { Fields } from '../types/Fields';
+import { SubmitCallback } from '../types/SubmitCallback';
+import { FormTemplate } from './FormTemplate';
 
 type Props = {
   setError: Dispatch<SetStateAction<string>>;
@@ -12,21 +11,21 @@ type Props = {
 };
 
 const fields = {
+  currentPassword: { type: 'password', label: 'Password' },
   newPassword: { type: 'password', label: 'New password' },
   confirmPassword: { type: 'password', label: 'Confirm password' },
 } as Fields;
 
 export const ChangePassForm: React.FC<Props> = ({ setError, setUpdated }) => {
-  const [checked, setChecked] = useState(false);
-
   const handleSubmit: SubmitCallback = async (
-    { newPassword, confirmPassword },
+    { currentPassword, newPassword, confirmPassword },
     formikHelpers,
   ) => {
     formikHelpers.setSubmitting(true);
 
     userService
       .updateUserData('password', {
+        currentPassword,
         newPassword,
         confirmPassword,
       })
@@ -35,13 +34,5 @@ export const ChangePassForm: React.FC<Props> = ({ setError, setUpdated }) => {
       .finally(() => formikHelpers.setSubmitting(false));
   };
 
-  return (
-    <>
-      {checked ? (
-        <FormTemplate fields={fields} onSubmit={handleSubmit} />
-      ) : (
-        <CheckPassForm setChecked={setChecked} setError={setError} />
-      )}
-    </>
-  );
+  return <FormTemplate fields={fields} onSubmit={handleSubmit} />;
 };

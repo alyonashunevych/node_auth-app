@@ -1,10 +1,10 @@
-import { userService } from '../services/userService.ts';
-import { useAuth } from './AuthContext.tsx';
+import { userService } from '../services/userService';
+import { useAuth } from './AuthContext';
 import { Dispatch, SetStateAction } from 'react';
-import { catchError } from '../utils/catchError.ts';
-import { Fields } from '../types/Fields.ts';
-import { SubmitCallback } from '../types/SubmitCallback.ts';
-import { FormTemplate } from './FormTemplate.tsx';
+import { catchError } from '../utils/catchError';
+import { Fields } from '../types/Fields';
+import { SubmitCallback } from '../types/SubmitCallback';
+import { FormTemplate } from './FormTemplate';
 
 type Props = {
   setError: Dispatch<SetStateAction<string>>;

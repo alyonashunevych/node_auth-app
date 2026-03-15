@@ -1,6 +1,7 @@
-import jsonwebtoken from 'jsonwebtoken';
-import type { NormalizedUser } from '../services/user.service.ts';
 import 'dotenv/config';
+import jsonwebtoken from 'jsonwebtoken';
+
+import { NormalizedUser } from '../services/user.service.js';
 
 const SECRET = process.env.JWT_ACCESS_SECRET as string;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET as string;

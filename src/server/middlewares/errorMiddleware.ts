@@ -1,9 +1,10 @@
-import type {
+import {
   Request as ExpressRequest,
   Response as ExpressResponse,
   NextFunction,
 } from 'express';
-import { ApiError } from '../exeptions/api.error.ts';
+
+import { ApiError } from '../exeptions/api.error.js';
 
 export const errorMiddleware = (
   error: Error,

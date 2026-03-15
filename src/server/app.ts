@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 'use strict';
-import express from 'express';
-import cors from 'cors';
 import 'dotenv/config';
-import { authRouter } from './routes/auth.router.ts';
-import { errorMiddleware } from './middlewares/errorMiddleware.ts';
-import { userRouter } from './routes/user.router.ts';
-import { authMiddleware } from './middlewares/authMiddleware.ts';
+import cors from 'cors';
+import express from 'express';
+
+import { authRouter } from './routes/auth.router.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
+import { userRouter } from './routes/user.router.js';
+import { authMiddleware } from './middlewares/authMiddleware.js';
 
 const app = express();
 

@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { usersController } from '../controllers/users.controller.ts';
+
+import { usersController } from '../controllers/users.controller.js';
 import { catchError } from '../utils/catchError.js';
 
 export const userRouter = Router();

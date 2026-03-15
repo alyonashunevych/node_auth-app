@@ -1,15 +1,21 @@
-import type { Request as ExpressRequest, RequestHandler } from 'express';
-import { usersRepository } from '../entity/users.repository.ts';
-import { ApiError } from '../exeptions/api.error.ts';
-import { userService } from '../services/user.service.ts';
 import bcrypt from 'bcrypt';
-import type { User } from '@prisma/client';
-import { mailer } from '../utils/mailer.ts';
+import { Request as ExpressRequest, RequestHandler } from 'express';
+import nodeCrypto from 'crypto';
+
+import { User } from '@prisma/client';
+import { usersRepository } from '../entity/users.repository.js';
+import { ApiError } from '../exeptions/api.error.js';
+import { mailer } from '../utils/mailer.js';
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from '../../utils/validators.js';
 
 const checkNewName = async (req: ExpressRequest, user: User) => {
   const { newName } = req.body;
 
-  const error = userService.validateName(newName);
+  const error = validateName(newName);
 
   if (!newName || error || newName === user.name) {
     throw ApiError.badRequest(
@@ -24,7 +30,7 @@ const checkNewName = async (req: ExpressRequest, user: User) => {
 const checkNewPassword = async (req: ExpressRequest) => {
   const { newPassword, confirmPassword } = req.body;
 
-  const error = userService.validatePassword(newPassword);
+  const error = validatePassword(newPassword);
 
   if (newPassword !== confirmPassword || error) {
     throw ApiError.badRequest(
@@ -40,12 +46,14 @@ const checkNewPassword = async (req: ExpressRequest) => {
 };
 
 const checkNewEmail = async (req: ExpressRequest, user: User) => {
-  const { newEmail } = req.body;
+  const { newEmail, confirmEmail } = req.body;
 
-  const error = userService.validateEmail(newEmail);
+  const error = validateEmail(newEmail);
 
-  if (error) {
-    throw ApiError.badRequest('Invalid email', { error });
+  if (newEmail !== confirmEmail || error) {
+    throw ApiError.badRequest('Please enter the new and confirm email again', {
+      error,
+    });
   }
 
   if (newEmail === user.email) {
@@ -60,7 +68,7 @@ const checkNewEmail = async (req: ExpressRequest, user: User) => {
     throw ApiError.badRequest('Email is already taken');
   }
 
-  const activationToken = bcrypt.genSaltSync(1);
+  const activationToken = nodeCrypto.randomBytes(32).toString('hex');
 
   await usersRepository.update(user.id, {
     pendingEmail: newEmail,
@@ -105,6 +113,15 @@ const changeUserData: RequestHandler = async (req, res) => {
       break;
 
     case 'password':
+      const isPasswordValid = await bcrypt.compare(
+        req.body.currentPassword,
+        user.password,
+      );
+
+      if (!isPasswordValid) {
+        throw ApiError.badRequest('Password is incorrect');
+      }
+
       dataToUpdate = await checkNewPassword(req);
       break;
 

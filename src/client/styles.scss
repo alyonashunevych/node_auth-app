@@ -40,14 +40,23 @@ $navbar-breakpoint: 480px !default;
 }
 
 .menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin: 0 !important;
 }
 
 .menu-item-box {
-  display: flex;
-  justify-content: space-between;
+  padding: 0;
   list-style: none;
-  margin-bottom: 10px;
+}
+
+.menu-i {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 15px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .box {

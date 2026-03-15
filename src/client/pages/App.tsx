@@ -5,18 +5,19 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bulma/css/bulma.css';
 import './styles.scss';
 
-import { useAuth } from './components/AuthContext';
-import { usePageError } from './hooks/usePageError';
-import { Loader } from './components/Loader';
-import { HomePage } from './pages/HomePage';
-import { SignUpPage } from './pages/SignUpPage';
-import { AccountActivationPage } from './pages/AccountActivationPage';
-import { LoginPage } from './pages/LoginPage';
-import { RequireAuth } from './components/RequireAuth';
-import { ProfilePage } from './pages/ProfilePage';
-import { ChangePage } from './pages/ChangePage';
-import { catchError } from './utils/catchError';
-import { ResetPassPage } from './pages/ResetPassPage';
+import { useAuth } from '../components/AuthContext';
+import { usePageError } from '../hooks/usePageError';
+import { Loader } from '../components/Loader';
+import { HomePage } from './HomePage';
+import { SignUpPage } from './SignUpPage';
+import { AccountActivationPage } from './AccountActivationPage';
+import { LoginPage } from './LoginPage';
+import { RequireAuth } from '../components/RequireAuth';
+import { ProfilePage } from './ProfilePage';
+import { ChangePage } from './ChangePage';
+import { ResetPassPage } from './ResetPassPage';
+import { NotFoundPage } from './NotFoundPage';
+import { catchError } from '../utils/catchError';
 
 export function App() {
   const navigate = useNavigate();

@@ -15,7 +15,7 @@ export const RequireNonAuth = ({
   }
 
   if (currentUser) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/profile" replace />;
   }
 
   return children ?? <Outlet />;

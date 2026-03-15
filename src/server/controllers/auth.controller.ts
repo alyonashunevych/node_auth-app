@@ -1,16 +1,22 @@
 import 'dotenv/config';
-import type { RequestHandler, Response as ExpressResponse } from 'express';
-import { usersRepository } from '../entity/users.repository.ts';
 import nodeCrypto from 'crypto';
 import bcrypt from 'bcrypt';
-import { type NormalizedUser, userService } from '../services/user.service.ts';
-import { ApiError } from '../exeptions/api.error.ts';
-import { mailer } from '../utils/mailer.ts';
-import { jwt } from '../utils/jwt.ts';
-import type { User } from '@prisma/client';
-import { tokensRepository } from '../entity/tokens.repository.ts';
 import dayjs from 'dayjs';
-import { usersController } from './users.controller.ts';
+import { RequestHandler, Response as ExpressResponse } from 'express';
+
+import { User } from '@prisma/client';
+import { usersRepository } from '../entity/users.repository.js';
+import { NormalizedUser, userService } from '../services/user.service.js';
+import { ApiError } from '../exeptions/api.error.js';
+import { mailer } from '../utils/mailer.js';
+import { jwt } from '../utils/jwt.js';
+import { tokensRepository } from '../entity/tokens.repository.js';
+import { usersController } from './users.controller.js';
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from '../../utils/validators.js';
 
 async function sendAuthentication(res: ExpressResponse, user: User) {
   const userData = userService.normalize(user);
@@ -37,9 +43,9 @@ const register: RequestHandler = async (req, res) => {
   const { name, email, password } = req.body;
 
   const errors = {
-    nameError: userService.validateName(name),
-    emailError: userService.validateEmail(email),
-    passwordError: userService.validatePassword(password),
+    nameError: validateName(name),
+    emailError: validateEmail(email),
+    passwordError: validatePassword(password),
   };
 
   if (Object.values(errors).some((error) => error)) {
@@ -70,12 +76,12 @@ const register: RequestHandler = async (req, res) => {
 };
 
 const activate: RequestHandler = async (req, res) => {
-  const { token } = req.params;
+  const { token, email } = req.params;
   const tokenString = Array.isArray(token) ? token[0] : token;
 
   const user = await usersRepository.getByActivationToken(tokenString);
 
-  if (!user) {
+  if (!user || (user.email !== email && user.pendingEmail !== email)) {
     throw ApiError.notFound();
   }
 

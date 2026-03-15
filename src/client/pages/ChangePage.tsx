@@ -1,9 +1,9 @@
 import { usePageError } from '../hooks/usePageError';
 import { useParams } from 'react-router-dom';
-import { ChangeNameForm } from '../components/ChangeNameForm.tsx';
-import { ChangePassForm } from '../components/ChangePassForm.tsx';
-import { ChangeEmailForm } from '../components/ChangeEmailForm.tsx';
-import { useSuccessRedirect } from '../hooks/useSuccessRedirect.ts';
+import { ChangeNameForm } from '../components/ChangeNameForm';
+import { ChangePassForm } from '../components/ChangePassForm';
+import { ChangeEmailForm } from '../components/ChangeEmailForm';
+import { useSuccessRedirect } from '../hooks/useSuccessRedirect';
 
 export const ChangePage = () => {
   const [error, setError] = usePageError('');

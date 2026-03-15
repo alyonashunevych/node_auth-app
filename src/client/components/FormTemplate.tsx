@@ -2,9 +2,13 @@ import { Formik, Form, Field } from 'formik';
 import React from 'react';
 import cn from 'classnames';
 import { Link, useNavigate } from 'react-router-dom';
-import { userService } from '../../server/services/user.service.ts';
-import { Fields } from '../types/Fields.ts';
-import { SubmitCallback } from '../types/SubmitCallback.ts';
+import { Fields } from '../types/Fields';
+import { SubmitCallback } from '../types/SubmitCallback';
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from '../../utils/validators';
 
 type Props = {
   fields: Fields;
@@ -17,17 +21,17 @@ type Props = {
 
 const inputParams = {
   name: {
-    validator: userService.validateName,
+    validator: validateName,
     placeholder: 'Alyona',
     icon: 'fa-solid fa-user',
   },
   password: {
-    validator: userService.validatePassword,
+    validator: validatePassword,
     placeholder: '******',
     icon: 'fa fa-lock',
   },
   email: {
-    validator: userService.validateEmail,
+    validator: validateEmail,
     placeholder: 'e.g. bobsmith@gmail.com',
     icon: 'fa fa-envelope',
   },

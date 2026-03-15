@@ -18,6 +18,7 @@ import { ChangePage } from './pages/ChangePage';
 import { catchError } from './utils/catchError';
 import { ResetPassPage } from './pages/ResetPassPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { RequireNonAuth } from './components/RequireNonAuth';
 
 export function App() {
   const navigate = useNavigate();
@@ -94,18 +95,20 @@ export function App() {
       <main>
         <section className="section">
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="sign-up" element={<SignUpPage />} />
+            <Route path="/" element={<RequireNonAuth />}>
+              <Route index element={<HomePage />} />
+              <Route path="sign-up" element={<SignUpPage />} />
+              <Route path="login" element={<LoginPage />} />
+            </Route>
+
             <Route
               path="auth/activation/:email/:activationToken"
               element={<AccountActivationPage />}
             />
-            <Route
-              path="reset-password/:resetToken"
-              element={<ResetPassPage />}
-            />
-            <Route path="reset-password" element={<ResetPassPage />} />
-            <Route path="login" element={<LoginPage />} />
+
+            <Route path="reset-password" element={<ResetPassPage />}>
+              <Route path=":resetToken" />
+            </Route>
 
             <Route path="/" element={<RequireAuth />}>
               <Route path="profile" element={<ProfilePage />} />
